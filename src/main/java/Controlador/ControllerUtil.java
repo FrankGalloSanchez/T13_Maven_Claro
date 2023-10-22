@@ -9,7 +9,6 @@ public class ControllerUtil {
 	private ControllerUtil() {
 	}
 
-	// Constantes del CRUD
 	public final static String CRUD_NUEVO = "NUEVO";
 	public final static String CRUD_EDITAR = "EDITAR";
 	public final static String CRUD_ELIMINAR = "ELIMINAR";
