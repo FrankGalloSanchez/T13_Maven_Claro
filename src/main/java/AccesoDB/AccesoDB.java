@@ -33,7 +33,7 @@ public class AccesoDB {
 	public static void main(String[] args) {
 		try {
 			Connection cn = AccesoDB.getConnection();
-			System.out.println("Conexión ok.");
+			System.out.println("Buena proplayer lo lograstes ingresastes a Maven_claro");
 			cn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
