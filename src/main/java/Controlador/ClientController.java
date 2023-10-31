@@ -44,12 +44,12 @@ public class ClientController extends HttpServlet {
         String accion = request.getParameter("accion");
         ModeloClient bean = new ModeloClient();
         bean.setId(Integer.parseInt(request.getParameter("id")));
-        bean.setName(request.getParameter("names"));
+        bean.setName(request.getParameter("name"));
         bean.setLast_name(request.getParameter("last_name"));
         bean.setType_document(request.getParameter("type_document"));
         bean.setNumber_document(request.getParameter("number_document"));
         bean.setEmail(request.getParameter("email"));
-        bean.setCell_phone(request.getParameter("cellphone"));
+        bean.setCell_phone(request.getParameter("cell_phone"));
         bean.setStatus(request.getParameter("status"));
         // Proceso
         try {
@@ -81,11 +81,13 @@ public class ClientController extends HttpServlet {
     private void buscar(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Datos
-        String names = request.getParameter("names");
+        String name = request.getParameter("name");
         String last_name = request.getParameter("last_name");
+        String number_document = request.getParameter("number_document");	
+        
         // Proceso
         ModeloClient bean = new ModeloClient();
-        bean.setName(names);
+        bean.setName(name);
         bean.setLast_name(last_name);
         List<ModeloClient> lista = service.get(bean);
         // Preparando el JSON

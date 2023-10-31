@@ -7,7 +7,7 @@ public class Eliminar {
 	public static void main(String[] args) {
 		try {
 			client userService = new client();
-			userService.delete("12");
+			userService.delete("1002");
 			System.out.println("Usuario eliminado correctamente.");
 		} catch (Exception e) {
 			System.err.println(e.getMessage());

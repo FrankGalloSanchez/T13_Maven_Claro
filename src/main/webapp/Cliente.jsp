@@ -30,13 +30,17 @@
 									<button type="button" class="btn d-none" id="btnActualizar"
 										name="btnActualizar">Actualizar</button>
 								</div>
-								<div class="col-sm-4">
+								<div class="col-sm-2">	
 									<input type="text" class="form-control" id="names" name="names"
 										placeholder="Ingrese nombre">
 								</div>
-								<div class="col-sm-4">
+								<div class="col-sm-2">
 									<input type="text" class="form-control" id="last_name"
 										name="last_name" placeholder="Ingrese apellido">
+								</div>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" id="number_document"
+										name="number_document" placeholder="Ingrese Numero de documento">
 								</div>
 								<div class="col-sm-2">
 									<button type="button" class="btn btn-primary mb-2"
@@ -56,13 +60,7 @@
 						<div class="card-body">
 							<button onclick="exportToCSV()">Exportar a CSV</button>
 							<button onclick="exportToExcel()">Exportar a Excel</button>
-							<button type="button" class="cancel-button"
-							 onclick="window.location.href='export-pdf.jsp'"
-							 style="background-color: #FF4136; border: none;
-							  color: white; text-align: center; text-decoration:
-							   none; display: inline-block; font-size: 14px;
-							    margin-right: 6px; cursor: pointer; border-radius:
-							     4px;">Exportar a PDF</button>
+
 
 						
 							
@@ -247,14 +245,14 @@
 		}
 		let datos = "accion=" + document.getElementById("accion").value;
 		datos += "&id=" + document.getElementById("frmId").value;
-		datos += "&names=" + document.getElementById("frmNames").value;
+		datos += "&name=" + document.getElementById("frmNames").value;
 		datos += "&last_name=" + document.getElementById("frmLast_name").value;
 		datos += "&type_document=" + document.getElementById("frmType_document").value;
 		datos += "&number_document=" + document.getElementById("frmNumber_document").value;
-		datos += "&cellphone=" + document.getElementById("frmCellphone").value;
+		datos += "&cell_phone=" + document.getElementById("frmCellphone").value;
 		datos += "&email=" + document.getElementById("frmEmail").value;
 		let xhr = new XMLHttpRequest();
-		xhr.open("POST", "StudentProcesar", true);
+		xhr.open("POST", "ClientProcesar", true);
 		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4 && xhr.status === 200) {
@@ -272,38 +270,46 @@
 	}
 
 	function fnBtnBuscar() {
-		let names = document.getElementById("names").value;
-		let last_name = document.getElementById("last_name").value;
-		let url = "ClientBuscar?names=" + names + "&last_name=" + last_name;
-		let xhttp = new XMLHttpRequest();
-		xhttp.open("GET", url, true);
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				let respuesta = xhttp.responseText;
-				arreglo = JSON.parse(respuesta);
-				let detalleTabla = "";
-				arreglo.forEach(function(item) {
-							detalleTabla += "<tr>";
-							detalleTabla += "<td>" + item.id + "</td>";
-							detalleTabla += "<td>" + item.names + "</td>";
-							detalleTabla += "<td>" + item.last_name + "</td>";
-							detalleTabla += "<td>" + item.type_document + "</td>";
-							detalleTabla += "<td>" + item.number_document + "</td>";
-							detalleTabla += "<td>" + item.cellphone + "</td>";
-							detalleTabla += "<td>" + item.email + "</td>";
-							detalleTabla += "<td>";
-							detalleTabla += "<a class='btn btn-success' href='javascript:fnEditar(" + item.id + ");'><i class='fa-solid fa-pen'></i></a> ";
-							detalleTabla += "<a class='btn btn-danger' href='javascript:fnEliminar(" + item.id + ");'><i class='fa-solid fa-trash'></i></a>";
-							detalleTabla += "</td>";
-							detalleTabla += "</tr>";
-						});
-				document.getElementById("detalleTabla").innerHTML = detalleTabla;
-				document.getElementById("divResultado").style.display = "block";
-				document.getElementById("divRegistro").style.display = "none";
-			}
-		};
-		xhttp.send();
+	    let name = document.getElementById("names").value;
+	    let last_name = document.getElementById("last_name").value;
+	    let number_document = document.getElementById("number_document").value;
+
+	    // Corrige los nombres de las variables para la construcción de la URL
+	    let url = "ClientBuscar?name=" + name + "&last_name=" + last_name + "&number_document=" + number_document;
+
+	    let xhttp = new XMLHttpRequest();
+	    xhttp.open("GET", url, true);
+	    xhttp.onreadystatechange = function() {
+	        if (this.readyState == 4 && this.status == 200) {
+	            let respuesta = xhttp.responseText;
+	            let arreglo = JSON.parse(respuesta);
+	            let detalleTabla = "";
+
+	            arreglo.forEach(function(item) {
+	                detalleTabla += "<tr>";
+	                detalleTabla += "<td>" + item.id + "</td>";
+	                detalleTabla += "<td>" + item.name + "</td>";
+	                detalleTabla += "<td>" + item.last_name + "</td>";
+	                detalleTabla += "<td>" + item.type_document + "</td>";
+	                detalleTabla += "<td>" + item.number_document + "</td>";
+	                detalleTabla += "<td>" + item.cell_phone + "</td>";
+	                detalleTabla += "<td>" + item.email + "</td>";
+	                detalleTabla += "<td>";
+	                detalleTabla += "<a class='btn btn-success' href='javascript:fnEditar(" + item.id + ");'><i class='fa-solid fa-pen'></i></a> ";
+	                detalleTabla += "<a class='btn btn-danger' href='javascript:fnEliminar(" + item.id + ");'><i class='fa-solid fa-trash'></i></a>";
+	                detalleTabla += "</td>";
+	                detalleTabla += "</tr>";
+	            });
+
+	            document.getElementById("detalleTabla").innerHTML = detalleTabla;
+	            document.getElementById("divResultado").style.display = "block";
+	            document.getElementById("divRegistro").style.display = "none";
+	        }
+	    };
+	    xhttp.send();
 	}
+
+
 	
 	function fnBtnActualizar() {
 		let xhttp = new XMLHttpRequest();
@@ -316,11 +322,11 @@
 				arreglo.forEach(function(item) {
 							detalleTabla += "<tr>";
 							detalleTabla += "<td>" + item.id + "</td>";
-							detalleTabla += "<td>" + item.names + "</td>";
+							detalleTabla += "<td>" + item.name + "</td>";
 							detalleTabla += "<td>" + item.last_name + "</td>";
 							detalleTabla += "<td>" + item.type_document + "</td>";
 							detalleTabla += "<td>" + item.number_document + "</td>";
-							detalleTabla += "<td>" + item.cellphone + "</td>";
+							detalleTabla += "<td>" + item.cell_phone + "</td>";
 							detalleTabla += "<td>" + item.email + "</td>";
 							detalleTabla += "<td>";
 							detalleTabla += "<a class='btn btn-success' href='javascript:fnEditar(" + item.id + ");'><i class='fa-solid fa-pen'></i></a> ";
@@ -343,11 +349,11 @@
 	    arreglo.forEach(function (item) {
 	        if (item.id == id) {
 	            frmId.value = item.id;
-	            frmNames.value = item.names; // Cambiado a name
+	            frmNames.value = item.name; 
 	            frmLast_name.value = item.last_name;
 	            frmType_document.value = item.type_document;
 	            frmNumber_document.value = item.number_document;
-	            frmCellphone.value = item.cellphone; // Cambiado a cell_phone
+	            frmCellphone.value = item.cell_phone;
 	            frmEmail.value = item.email;
 	            return true;
 	        }
